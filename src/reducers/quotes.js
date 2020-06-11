@@ -1,18 +1,38 @@
-import React from 'react';
-import uuid from 'uuid';
+export default (state = [], action) => {
+  let index;
+  let quote;
 
-export default function quotes (state = [], action) => {
-  const id = uuid()
-  let idx;
-  switch(action.type){
+  switch (action.type) {
+
     case 'ADD_QUOTE':
-      return {...state, content: state.content, author: state.author, id: id}
+      return state.concat(action.quote);
+
     case 'REMOVE_QUOTE':
-     idx = state.findIndex(quote => quote.id === action.id)
-     return [...state.slice(0, idx), ...state.slice(idx + 1)]
+      return state.filter(quote => quote.id !== action.quoteId);
+
     case 'UPVOTE_QUOTE':
-      return {}
+      index = state.findIndex(quote => quote.id === action.quoteId);
+      quote = state[index];
+
+      return [
+        ...state.slice(0, index),
+        Object.assign({}, quote, { votes: quote.votes += 1 }),
+        ...state.slice(index + 1)
+      ];
+
+    case 'DOWNVOTE_QUOTE':
+      index = state.findIndex(quote => quote.id === action.quoteId);
+      quote = state[index];
+      if (quote.votes > 0) {
+        return [
+          ...state.slice(0, index),
+          Object.assign({}, quote, { votes: quote.votes -= 1 }),
+          ...state.slice(index + 1)
+        ];
+      }
+      return state;
+
+    default: 
+      return state;
   }
-  default:
-  return state;
 }

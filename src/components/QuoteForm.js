@@ -10,16 +10,18 @@ class QuoteForm extends Component {
     content: '', author: ''  }
 
   handleOnChange = event => {
+    const {value, name} = event.target
     // Handle Updating Component State
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({[name]: value})
   }
 
   handleOnSubmit = event => {
     event.preventDefault()
+    const quote = {...this.state, id: uuid()}
     this.props.addQuote(quote)
     this.setState({
-      content: this.state.content,
-      author: this.state.author
+      content: '',
+      author: ''
     })
     // Handle Form Submit event default
     // Create quote object from state
@@ -38,9 +40,11 @@ class QuoteForm extends Component {
                   <div className="form-group">
                     <label htmlFor="content" className="col-md-4 control-label">Quote</label>
                     <div className="col-md-5">
-                      <textarea onChange={this.handleOnChange}
+                      <textarea 
                         className="form-control"
                         value={this.state.content}
+                        name="content"
+                        onChange={this.handleOnChange}
                       />
                     </div>
                   </div>
@@ -50,6 +54,7 @@ class QuoteForm extends Component {
                       <input onChange={this.handleOnChange} 
                         className="form-control"
                         type="text"
+                        name="author"
                         value={this.state.author}
                       />
                     </div>
@@ -69,9 +74,9 @@ class QuoteForm extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  addQuote: formData => dispatch({type: 'ADD_QUOTE', payload: formData})
-})
+// const mapDispatchToProps = dispatch => ({
+//   addQuote: formData => dispatch({type: 'ADD_QUOTE', payload: formData})
+// })
 
 //add arguments to connect as needed
-export default connect(null, mapDispatchToProps)(QuoteForm);
+export default connect(null, {addQuote})(QuoteForm);
