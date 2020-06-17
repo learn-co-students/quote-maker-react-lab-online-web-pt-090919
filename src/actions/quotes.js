@@ -1,29 +1,27 @@
-import * as actionTypes from './types'
-
-export function addQuote(quote) {
+export const addQuote = quote => {
     return {
-        type: actionTypes.ADD_QUOTE,
-        quote
+      type: 'ADD_QUOTE',
+      quote
     }
-}
-
-export function removeQuote(quoteId) {
+  }
+  
+  export const removeQuote = quoteId => {
     return {
-        type: actionTypes.REMOVE_QUOTE,
-        quoteId
+      type: 'REMOVE_QUOTE',
+      quoteId
     }
-}
-
-export function upvoteQuote(quoteId){
+  }
+  
+  export const upvoteQuote = quoteId => {
     return {
-        type: actionTypes.UPVOTE_QUOTE,
-        quoteId
+      type: 'UPVOTE_QUOTE',
+      quoteId
     }
-}
-
-export function downvoteQuote(quoteId){
+  }
+  
+  export const downvoteQuote = quoteId => {
     return {
-        type: actionTypes.DOWNVOTE_QUOTE,
-        quoteId
+      type: 'DOWNVOTE_QUOTE',
+      quoteId
     }
-}
+  }

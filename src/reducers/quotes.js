@@ -1,26 +1,50 @@
-import * as actionTypes from '../actions/types'
+
 
 export default (state = [], action) => {
+  let idx;
+  let quote;
   switch(action.type){
+    case 'ADD_QUOTE':
+      return [...state, action.quote];
 
-    case actionTypes.ADD_QUOTE: 
-      return [...state, action.quote]
+    case 'REMOVE_QUOTE':
+      quote = state.find(quote => quote.id === action.quoteId)
+      idx = state.indexOf(quote);
+      return [...state.slice(0, idx), ...state.slice(idx + 1)]
 
-    case actionTypes.REMOVE_QUOTE:
-      return state.filter(q => q.id !== action.quoteId)
+    // case 'UPVOTE_QUOTE':
+    //   quote = state.find(quote => quote.id === action.quoteId)
+    //   quote.votes += 1
+    //   return state;
 
-    case actionTypes.UPVOTE_QUOTE:
-      const upIdx = state.findIndex(q => q.id === action.quoteId)
-      const quoteToUpvote = {...state[upIdx]}
-      const upvotedQuote = { ...quoteToUpvote, votes: quoteToUpvote.votes + 1 }
-      return [...state.slice(0,upIdx), upvotedQuote, ...state.slice(upIdx + 1)]
+  case 'UPVOTE_QUOTE':
+    idx = state.findIndex(quote => quote.id === action.quoteId);
+    quote = state[idx];
 
-    case actionTypes.DOWNVOTE_QUOTE:
-      const downIdx = state.findIndex(q => q.id === action.quoteId)
-      const quoteToDownvote = {...state[downIdx]}
-      const newValue = quoteToDownvote.votes > 0 ? (quoteToDownvote.votes - 1) : 0
-      const downvotedQuote = { ...quoteToDownvote, votes: newValue }
-      return [...state.slice(0,downIdx), downvotedQuote, ...state.slice(downIdx + 1)]
+    return [
+      ...state.slice(0, idx),
+      Object.assign({}, quote, { votes: quote.votes += 1 }),
+      ...state.slice(idx + 1)
+    ];
+    //
+    // case 'DOWNVOTE_QUOTE':
+    //   quote = state.find(quote => quote.id === action.quoteId)
+    //   if (quote.votes > 0 ){quote.votes -= 1}
+    //   return state
+
+    case 'DOWNVOTE_QUOTE':
+      idx = state.findIndex(quote => quote.id === action.quoteId);
+      quote = state[idx]
+
+      if (quote.votes > 0){
+        return [
+          ...state.slice(0, idx),
+          Object.assign({}, quote, {votes: quote.votes -= 1}),
+          ...state.slice(idx +1)
+        ]
+      } else {
+        return state;
+      }
 
     default:
       return state
