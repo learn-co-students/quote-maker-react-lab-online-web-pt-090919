@@ -1,32 +1,28 @@
-import uuid from 'uuid';
+// import uuid from 'uuid';
  
-const id = uuid();
+// const id = uuid();
 
 export default function quotes(state = [], action) {
 
   switch(action.type) {
 
     case 'ADD_QUOTE':
-      
-      let newState = state.concat({ 
-        id: id,
-        content: action.quote.content,
-        author: action.quote.author
-      });
-      console.log(newState)
-      return newState
+      let addState = state.concat(action.quote);
+      return addState;
 
     case 'REMOVE_QUOTE':
-      console.log("REMOVE")
-      return null
+      let remState = state.filter(quote => quote.id != action.quoteId);
+      return remState;
 
     case 'UPVOTE_QUOTE':
-      console.log("UPVOTE")
-      return null
+      let upState = state.find(quote => quote.id === action.quoteId);
+      upState.votes += 1
+      return [...state]
 
     case 'DOWNVOTE_QUOTE':
-      console.log("DOWNVOTE")
-      return null
+      let downState = state.find(quote => quote.id === action.quoteId);
+      if (downState.votes > 0) {downState.votes -= 1}
+      return [...state]
 
     default:
       return state

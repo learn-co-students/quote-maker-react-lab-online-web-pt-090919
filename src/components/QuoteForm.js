@@ -18,10 +18,10 @@ class QuoteForm extends Component {
 
   handleOnSubmit = event => {
     event.preventDefault();
-    addQuote(this.state)
+    this.props.addQuote({...this.state, id: uuid(), votes: 0})
     this.setState({
       content: "",
-      author: ""
+      author: "",
     })
   }
 
@@ -78,4 +78,5 @@ class QuoteForm extends Component {
 // };
 
 //add arguments to connect as needed
+
 export default connect(null, {addQuote})(QuoteForm);
