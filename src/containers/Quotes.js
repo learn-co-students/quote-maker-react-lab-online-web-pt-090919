@@ -1,26 +1,54 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import QuoteCard from '../components/QuoteCard';
-import {addQuote, upVote} from '../actions/quotes'
+import {addQuote, upvoteQuote, downvoteQuote, removeQuote} from '../actions/quotes'
 class Quotes extends Component { 
+  // updateState = (state) =>{ 
+    
+  //   this.setState({ quotes: [...state] })
+  // }  
 
-  upVote=(e)=>{
-    e.preventDefault  
-    let {upVote} = this.props  
-    let {id} = e.target 
-    let {quotes} = this.props   
+  removeQuote = e =>{
+    e.preventDefault 
+    debugger 
+    let { removeQuote } = this.props
+    let { id } = e.target
+    let { quotes } = this.props
     debugger
-    quotes.quotes.filter(ele => ele.id === id)[0].votes ? quotes.quotes.filter(e=>e.id ===id)[0] : quotes.quotes.filter(e=>e.id ===id)[0].votes =  0  
-    debugger
-    //.votes ? 0 : quotes.filter(ele => ele.id === id)[0].votes = 0; 
-    debugger
-    upVote(id)
-    debugger
+    removeQuote(id);
+    // this.updateState(quotes)
   }
+  downVote = e =>{
+    e.preventDefault(); 
+    let { downvoteQuote } = this.props
+    let { id } = e.target
+    let { quotes } = this.props   
+    debugger
+    quotes.quotes.filter(ele => ele.id === id)[0].votes ? quotes.quotes.filter(e => e.id === id)[0] : quotes.quotes.filter(e => e.id === id)[0].votes = 0  
+    debugger 
+    downvoteQuote(id); 
+    // this.updateState(quotes)
+  }
+  // upvoteQuote=(e)=>{
+  //   e.preventDefault  
+  //   let {upvoteQuote} = this.props  
+  //   let {id} =  
+  //   let {quotes} = this.props   
+  //   debugger
+  //   quotes.quotes.filter(ele => ele.id === id)[0].votes ? quotes.quotes.filter(e=>e.id ===id)[0] : quotes.quotes.filter(e=>e.id ===id)[0].votes =  0  
+    
+  //   //.votes ? 0 : quotes.filter(ele => ele.id === id)[0].votes = 0; 
+    
+  //   upvoteQuote(id) 
+    
+  //   // this.updateState(quotes.quotes)
+  // }
 
   makeQuoteCards =()=>{ 
     
-    return this.props.quotes.quotes.map(quote=> <QuoteCard quote={quote} upVote={this.upVote}/>)
+    return this.props.quotes.quotes.map(quote=> <QuoteCard quote={quote} upvoteQuote={this.props.upvoteQuote} 
+    downVote={this.downVote} removeQuote={this.removeQuote}
+    />)
   }
   render() {
     return (
@@ -52,7 +80,9 @@ const mapStateToProps =(state)=>{
 } 
 const mapDispatchToProps =(dispatch)=>{
   return{ 
-    upVote: (quote) => dispatch(upVote(quote))
+    upvoteQuote: (quote) => dispatch(upvoteQuote(quote)), 
+    downvoteQuote: quote => dispatch(downvoteQuote(quote)), 
+    removeQuote: quote => dispatch(removeQuote(quote)),
 
   }
 }
