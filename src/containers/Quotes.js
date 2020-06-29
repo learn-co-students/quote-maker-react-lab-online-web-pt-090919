@@ -1,9 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import QuoteCard from '../components/QuoteCard';
+import {addQuote, upvoteQuote, downvoteQuote, removeQuote} from '../actions/quotes'
+class Quotes extends Component { 
+  // updateState = (state) =>{ 
+    
+  //   this.setState({ quotes: [...state] })
+  // }  
 
-class Quotes extends Component {
+  removeQuote = e =>{
+    e.preventDefault 
+    debugger 
+    let { removeQuote } = this.props
+    let { id } = e.target
+    let { quotes } = this.props
+    debugger
+    removeQuote(id);
+    // this.updateState(quotes)
+  }
+  downVote = e =>{
+    e.preventDefault(); 
+    let { downvoteQuote } = this.props
+    let { id } = e.target
+    let { quotes } = this.props   
+    debugger
+    quotes.quotes.filter(ele => ele.id === id)[0].votes ? quotes.quotes.filter(e => e.id === id)[0] : quotes.quotes.filter(e => e.id === id)[0].votes = 0  
+    debugger 
+    downvoteQuote(id); 
+    // this.updateState(quotes)
+  }
+  // upvoteQuote=(e)=>{
+  //   e.preventDefault  
+  //   let {upvoteQuote} = this.props  
+  //   let {id} =  
+  //   let {quotes} = this.props   
+  //   debugger
+  //   quotes.quotes.filter(ele => ele.id === id)[0].votes ? quotes.quotes.filter(e=>e.id ===id)[0] : quotes.quotes.filter(e=>e.id ===id)[0].votes =  0  
+    
+  //   //.votes ? 0 : quotes.filter(ele => ele.id === id)[0].votes = 0; 
+    
+  //   upvoteQuote(id) 
+    
+  //   // this.updateState(quotes.quotes)
+  // }
 
+  makeQuoteCards =()=>{ 
+    debugger
+    return this.props.quotes.quotes.map(quote=> <QuoteCard quote={quote} upvoteQuote={this.props.upvoteQuote} 
+    downvoteQuote={this.props.downvoteQuote} removeQuote={this.props.removeQuote}
+    />)
+  }
   render() {
     return (
       <div>
@@ -14,7 +60,8 @@ class Quotes extends Component {
         <hr />
         <div className="container">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-md-4"> 
+            {this.makeQuoteCards()}
               {/*
                 TODO:
 
@@ -27,6 +74,17 @@ class Quotes extends Component {
     );
   }
 }
+const mapStateToProps =(state)=>{ 
+  
+  return {quotes: state}
+} 
+const mapDispatchToProps =(dispatch)=>{
+  return{ 
+    upvoteQuote: (quote) => dispatch(upvoteQuote(quote)), 
+    downvoteQuote: quote => dispatch(downvoteQuote(quote)), 
+    removeQuote: quote => dispatch(removeQuote(quote)),
 
+  }
+}
 //add arguments to connect as needed
-export default connect()(Quotes);
+export default connect(mapStateToProps, mapDispatchToProps)(Quotes);
