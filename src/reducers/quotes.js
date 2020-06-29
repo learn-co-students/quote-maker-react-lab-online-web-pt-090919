@@ -5,21 +5,22 @@ export default (state = [], quote) => {
     case 'ADD_QUOTE': 
       debugger
     return state.concat(Object.assign({}, quote.quote)); 
-    case 'UPVOTE_QUOTE': 
-    
-    // need to make a clone of state modify it and return the clone state for redux to work propertly
-    return state.filter(ele => ele.id === quoteId)[0].votes ++ ; 
-    
-    case 'DOWNVOTE_QUOTE': 
-      state.filter(ele => ele.id === quoteId)[0].votes === 0 ? null : 
-      state.filter(ele => ele.id === quoteId)[0].votes--; 
-      return state; 
+    case 'UPVOTE_QUOTE':  
+    debugger
+    state.filter(ele => ele.id === quoteId)[0].votes ++ ; 
+    return [...state]
+    case 'DOWNVOTE_QUOTE':  
+    debugger 
+      let stateClone2 = state
+      stateClone2.filter(ele => ele.id === quoteId)[0].votes === 0 ? null : 
+      stateClone2.filter(ele => ele.id === quoteId)[0].votes--; 
+      return stateClone2; 
     case 'REMOVE_QUOTE':   
     debugger 
-    //index of wanted quote
-      let x = state.findIndex(e => e === state.filter(q => q.id === quoteId)[0])  
-      state.splice(x, 1) 
-      return state   
+      let stateClone = state
+      let x = stateClone.findIndex(e => e === stateClone.filter(q => q.id === quoteId)[0])  
+      stateClone.splice(x, 1) 
+      return [...stateClone]   
      
 
     default: 

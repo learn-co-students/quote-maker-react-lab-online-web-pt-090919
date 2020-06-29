@@ -15,7 +15,8 @@ export function downvoteQuote(quote){
 
 } 
 
-export function removeQuote(quote){
+export function removeQuote(quote){ 
+    debugger
     return {type: 'REMOVE_QUOTE', quoteId: quote}
 
 }

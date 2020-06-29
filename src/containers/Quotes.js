@@ -45,9 +45,9 @@ class Quotes extends Component {
   // }
 
   makeQuoteCards =()=>{ 
-    
+    debugger
     return this.props.quotes.quotes.map(quote=> <QuoteCard quote={quote} upvoteQuote={this.props.upvoteQuote} 
-    downVote={this.downVote} removeQuote={this.removeQuote}
+    downvoteQuote={this.props.downvoteQuote} removeQuote={this.props.removeQuote}
     />)
   }
   render() {
